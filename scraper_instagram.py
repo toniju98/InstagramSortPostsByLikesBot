@@ -18,6 +18,7 @@ class SortByLikesBot:
     def __init__(self):
         """Login and some necessary clicks at the beginning
         """
+        # TODO: insert path to chromedriver.exe
         executable_path = "chromedriver.exe"
         load_dotenv()
         self.browser = webdriver.Chrome(executable_path)
@@ -82,8 +83,6 @@ class SortByLikesBot:
         :return: data: dataframe
         """
         data = pd.DataFrame(columns=["Links", "Likes"])
-        print(self.get_links())
-        print(self.get_likes())
         data["Links"] = self.get_links()
         data["Likes"] = self.get_likes()
         return data
@@ -111,13 +110,13 @@ class SortByLikesBot:
             (By.CSS_SELECTOR,
              '#loginForm > div > div:nth-child(3) > button'))).click()
         WebDriverWait(self.browser, 20)
-        # Don't save login information button
-        # WebDriverWait(self.browser, 20).until(EC.element_to_be_clickable(
-        #    (By.CSS_SELECTOR,
-        #     '#mount_0_0_2S > div > div > div > div.x9f619.x1n2onr6.x1ja2u2z > div > div > div > div.x78zum5.xdt5ytf.x10cihs4.x1t2pt76.x1n2onr6.x1ja2u2z > section > main > div > div > div > div'))).click()
-        # WebDriverWait(self.browser, 20).until(EC.element_to_be_clickable(
-        #    (By.CSS_SELECTOR,
-        #     'body > div.RnEpo.Yx5HN > div > div > div > div.mt3GC > button.aOOlW.HoLwm'))).click()
+
+        WebDriverWait(self.browser, 20).until(EC.element_to_be_clickable(
+            (By.CSS_SELECTOR,
+             '#mount_0_0_2S > div > div > div > div.x9f619.x1n2onr6.x1ja2u2z > div > div > div > div.x78zum5.xdt5ytf.x10cihs4.x1t2pt76.x1n2onr6.x1ja2u2z > section > main > div > div > div > div'))).click()
+        WebDriverWait(self.browser, 20).until(EC.element_to_be_clickable(
+           (By.CSS_SELECTOR,
+            'body > div.RnEpo.Yx5HN > div > div > div > div.mt3GC > button.aOOlW.HoLwm'))).click()
         sleep(10)
 
     def do_it(self):
@@ -125,7 +124,6 @@ class SortByLikesBot:
 
         :return:
         """
-        print(self.browser.)
         soup = BeautifulSoup(self.browser.page_source, 'html.parser')
         print(soup.prettify())
         print(soup.find("main", "_a993 _a995"))
@@ -207,4 +205,4 @@ class SortByLikesBot:
 if __name__ == '__main__':
     scraper = SortByLikesBot()
     # TODO: link to the account you want to analyze
-    scraper.sort_posts_by_likes("https://www.instagram.com/tonijrc_/")
+    scraper.sort_posts_by_likes("https://www.instagram.com/SOME_ACCOUNT/")
