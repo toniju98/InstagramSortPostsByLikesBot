@@ -3,7 +3,8 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium import webdriver
-from login_instagram import username, password
+from dotenv import load_dotenv
+import os
 from time import sleep
 import pandas as pd
 import json
@@ -14,15 +15,16 @@ class SortByLikesBot:
     """Bot that sorts posts of an IG account by likes and writes it into a json file
     """
 
-    def __init__(self, username, password):
+    def __init__(self):
         """Login and some necessary clicks at the beginning
         """
-        executable_path = "your_chromedriver_path"
+        executable_path = "chromedriver.exe"
+        load_dotenv()
         self.browser = webdriver.Chrome(executable_path)
         self.links = []
         self.likes = []
-        self.username = username
-        self.password = password
+        self.username = os.environ.get("LOGINNAME")
+        self.password = os.environ.get("PASSWORD")
         self.login()
 
     def sort_posts_by_likes(self, website):
@@ -97,7 +99,7 @@ class SortByLikesBot:
         # Click on Cookie button
         WebDriverWait(self.browser, 40).until(EC.element_to_be_clickable(
             (By.CSS_SELECTOR,
-             'body > div.RnEpo.Yx5HN > div > div > div > div.mt3GC > button.aOOlW.bIiDR'))).click()
+             'button.aOOlW:nth-child(2)'))).click()
         # Insert username
         WebDriverWait(self.browser, 20).until(EC.presence_of_element_located(
             (By.CSS_SELECTOR, "#loginForm > div > div:nth-child(1) > div > label > input"))).send_keys(self.username)
@@ -108,23 +110,30 @@ class SortByLikesBot:
         WebDriverWait(self.browser, 20).until(EC.element_to_be_clickable(
             (By.CSS_SELECTOR,
              '#loginForm > div > div:nth-child(3) > button'))).click()
-        WebDriverWait(self.browser, 20).until(EC.element_to_be_clickable(
-            (By.CSS_SELECTOR,
-             '#react-root > section > main > div > div > div > div > button'))).click()
-        WebDriverWait(self.browser, 20).until(EC.element_to_be_clickable(
-            (By.CSS_SELECTOR,
-             'body > div.RnEpo.Yx5HN > div > div > div > div.mt3GC > button.aOOlW.HoLwm'))).click()
+        WebDriverWait(self.browser, 20)
+        # Don't save login information button
+        # WebDriverWait(self.browser, 20).until(EC.element_to_be_clickable(
+        #    (By.CSS_SELECTOR,
+        #     '#mount_0_0_2S > div > div > div > div.x9f619.x1n2onr6.x1ja2u2z > div > div > div > div.x78zum5.xdt5ytf.x10cihs4.x1t2pt76.x1n2onr6.x1ja2u2z > section > main > div > div > div > div'))).click()
+        # WebDriverWait(self.browser, 20).until(EC.element_to_be_clickable(
+        #    (By.CSS_SELECTOR,
+        #     'body > div.RnEpo.Yx5HN > div > div > div > div.mt3GC > button.aOOlW.HoLwm'))).click()
+        sleep(10)
 
     def do_it(self):
         """Scrape the links to the posts and append them to links list
 
         :return:
         """
+        print(self.browser.)
         soup = BeautifulSoup(self.browser.page_source, 'html.parser')
-        articles = soup.find("article", "ySN3v")
-        articles_2 = articles.find_all("div", "Nnq7C weEfm")
+        print(soup.prettify())
+        print(soup.find("main", "_a993 _a995"))
+        articles = soup.find("article", "_aayp")
+        print(articles)
+        articles_2 = articles.find_all("div", {"class": "_ac7v _aang"})
         for x in articles_2:
-            new_list = x.find_all("div", "v1Nh3 kIKUG _bz0w")
+            new_list = x.find_all("div", "_aabd _aa8k _aanf")
             for i in new_list:
                 b = i.find("a", href=True)
                 self.links.append("https://instagram.com/" + b['href'])
@@ -156,7 +165,7 @@ class SortByLikesBot:
         self.likes = likes_list
 
     def scroll(self, timeout):
-        """Scrolling through the posts and scraping meanwhile
+        """Scrolling through the posts and scraping information during that time
 
         :param timeout: pause between each scroll action for loading the content
         :return:
@@ -181,7 +190,7 @@ class SortByLikesBot:
             last_height = new_height
 
     def get_links(self):
-        """Returns the links
+        """Returns the list of links for all posts
 
         :return: self.links
         """
@@ -196,6 +205,6 @@ class SortByLikesBot:
 
 
 if __name__ == '__main__':
-    scraper = SortByLikesBot(username, password)
-	#TODO: link to the account you want to analyze
-    scraper.sort_posts_by_likes("link_to_account")
+    scraper = SortByLikesBot()
+    # TODO: link to the account you want to analyze
+    scraper.sort_posts_by_likes("https://www.instagram.com/tonijrc_/")
