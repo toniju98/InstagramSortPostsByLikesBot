@@ -1,31 +1,36 @@
 # InstagramSortPostsByLikesBot
 
-This project shows a scraper which can sort all posts of a profile by their likes. I coded this back in 2021 because I was running an instagram page and wanted to know which posts perform well in my niche. So I decided to code a scraper.
+**InstagramSortPostsByLikesBot** is a web scraping project that allows you to sort an Instagram profile's posts by the number of likes they have received. This project originated in 2021 when I managed an Instagram page and wanted to understand the performance of my posts within a specific niche. To achieve this, I developed this web scraper.
 
-The scraper is coded with python and uses packages for web scraping like BeautifulSoup and selenium. 
-Selenium is used for all the clicking and input actions. You only need to reconstruct the whole clicking process as code.
-BeautifulSoup is used for extracting the links from all posts e.g.
+## Technologies Used
 
-## Challenges:
-The greatest challenge is that you can't scrape all posts at once. They load dynamically, so you need to scroll until the bottom of a profile and scrape the required data meanwhile.
+This scraper is developed using Python and relies on key packages for web scraping, including BeautifulSoup and Selenium. While BeautifulSoup is used to extract post links, Selenium handles all the clicking and input actions. To utilize the scraper effectively, you'll need to reconstruct the clicking process in code.
 
-## Whole process explained:
+## Challenges Faced
 
-1. Open chrome
+The primary challenge with this scraper is that Instagram loads posts dynamically. As a result, you must scroll through the profile to trigger the loading of posts and simultaneously scrape the required data.
 
-2. Click away the cookie window
+## The Complete Process Explained
 
-3. Login
+Here's a step-by-step breakdown of the entire process:
 
-4. Go to the profile
+1. Open Google Chrome.
 
-5. Scroll through the whole profile and get the links
+2. Dismiss the cookie window if it pops up.
 
-6. Go through all the post links and scrape nr of likes
+3. Log in to the Instagram account.
 
-7. Data will be saved to dataframe and then to .json file
+4. Navigate to the target profile.
 
-8. Now you can analyze the data
+5. Scroll through the entire profile to ensure that all posts are loaded and retrieve their links.
 
+6. Visit each post link and extract the number of likes.
 
-INFO: The code probably doesn't work anymore because HTML tags change with time, so you need to adapt them.
+7. Store the scraped data in a dataframe and then save it to a .json file for further analysis.
+
+8. Analyze the obtained data to gain insights into post performance.
+
+Please note: The code may no longer work as expected due to changes in HTML tags over time. You may need to adapt it to the current structure of the Instagram website.
+
+Feel free to explore and modify the code to suit your specific needs or to adapt to any changes in Instagram's web structure. Happy scraping!
+
